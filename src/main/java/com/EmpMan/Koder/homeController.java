@@ -18,5 +18,11 @@ public class homeController {
 	{
 		return "time";
 	}
+//	
+//	@GetMapping("/salary")
+//	public String salary()
+//	{
+//		return "salary";
+//	}
 
 }
