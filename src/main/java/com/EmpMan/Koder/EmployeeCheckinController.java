@@ -16,4 +16,10 @@ public class EmployeeCheckinController {
         service.saveCheckin(checkin);
         return "redirect:/"; // or return a success page
     }
+    
+     public String Administrator()
+     {
+    	 
+    	 return "x";
+     }
 }

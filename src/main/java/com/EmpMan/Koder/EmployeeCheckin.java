@@ -5,26 +5,38 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 @Entity
 @Table(name="employeeCheckin") //table name inside DB koder2025
 public class EmployeeCheckin {
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+
 @Id
 	private long id ;
 	private String name;
 	private long employeeid;
+	public long getEmployeeid() {
+		return employeeid;
+	}
+	public void setEmployeeid(long employeeid) {
+		this.employeeid = employeeid;
+	}
+	private long totalHr;
 	private LocalDate date;
 	private LocalTime checkinTime;
 	private LocalTime checkoutTime;
-	private long totalHr;
+	private char status;
+	
 	public long getTotalHr() {
 		return totalHr;
 	}
 	public void setTotalHr(long totalHr) {
 		this.totalHr = totalHr;
 	}
-	private char status;
+
 	public char getStatus() {
 		return status;
 	}
