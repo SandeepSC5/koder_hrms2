@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Timesheet</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: rgb(249, 217, 134);
+      padding: 20px;
+      background-image: url('/images/base.jpeg');
+    }
+    table {
+      width: 400px;
+      margin: auto;
+      border-collapse: collapse;
+      background-color: #fff;
+      padding: 80px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 20px;
+    }
+    td {
+      padding: 10px;
+    }
+    input[type="text"],
+    input[type="date"],
+    input[type="time"] {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+    input[type="submit"] {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      border-radius: 20px;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 style="text-align:center;">TimeSheet</h1>
+
+  <form id ="userForm" method="POST" action="/checkin">
+    <table>
+      <tr>
+        <td>Name:</td>
+        <td><input type="text" name="name" required></td>
+      </tr>
+      <tr>
+        <td>Employee ID:</td>
+        <td><input type="text" name="empId" required></td>
+      </tr>
+     <tr>
+  <td>Date:</td>
+  <td>
+    <input type="date" name="date" id="dateField" required>
+  </td>
+</tr>
+
+<script>
+  window.onload = function() {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const dd = String(today.getDate()).padStart(2, '0');
+    const formattedDate = `${yyyy}-${mm}-${dd}`;
+    document.getElementById('dateField').value = formattedDate;
+  };
+</script>
+
+      <tr>
+        <td>Check-in Time:</td>
+        <td><input type="time" name="checkinTime" id="checkinTime" required></td>
+      </tr>
+      <tr>
+        <td>Check-out Time:</td>
+        <td><input type="time" name="checkoutTime" id="checkoutTime" required></td>
+      </tr>
+      <script>
+  window.onload = function() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    document.getElementById('checkinTime').value = `${hours}:${minutes}`;
+    document.getElementById('checkoutTime').value = `${hours}:${minutes}`;
+  };
+</script>
+      
+      <tr>
+        <td colspan="2" style="text-align:center;">
+          <input type="submit" value="Submit">
+        </td>
+      </tr>
+      <tr><td style="color:red;">Note : Its 24hr Format be careful ! <br>Remember Check-in Time for current day</td></tr>
+    </table>
+  </form>
+  <table>
+   <tr>
+        <td colspan="2" style="text-align:center;">
+          <input name="submit" type="submit" value="Apply for Leave !">
+        </td>
+      </tr>
+    </table>
+
+</body>
+</html>
