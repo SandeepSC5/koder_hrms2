@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Employee Monthly Salary</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 30px;background-image: url('images/base.jpeg'); }
+    label { margin-right: 10px; }
+    button { margin-left: 10px; padding: 5px 10px; cursor: pointer; }
+    table { width: 80%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid gray; padding: 8px; text-align: left; }
+    th { background: #f0f0f0; }
+  </style>
+</head>
+<body>
+
+<h2>Employee Salary Report</h2>
+
+<label>Start Date:</label>
+<input type="date" id="startDate">
+
+<label>End Date:</label>
+<input type="date" id="endDate">
+
+<button onclick="fetchData()">Get Salary</button>
+
+<table id="resultTable" style="display:none;">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Employee ID</th>
+      <th>Total Hours</th>
+      <th>Net Salary (₹)</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script>
+const HOURLY_RATE = 100; // ₹100 per hour
+
+function parseHours(str) {
+    // str = "08:30" => 8.5 hours
+    const parts = str.split(':');
+    return parseInt(parts[0], 10) + (parseInt(parts[1], 10) / 60);
+}
+
+function formatHours(hours) {
+    const h = Math.floor(hours);
+    const m = Math.round((hours - h) * 60);
+    return `${h}:${m.toString().padStart(2,'0')}`;
+}
+
+function fetchData() {
+    const start = document.getElementById('startDate').value;
+    const end = document.getElementById('endDate').value;
+
+    if (!start || !end) {
+        alert("Please select both dates!");
+        return;
+    }
+
+    fetch(`/admin1?startDate=${start}&endDate=${end}`)
+      .then(response => response.json())
+      .then(data => {
+          const table = document.getElementById('resultTable');
+          const tbody = table.querySelector('tbody');
+          tbody.innerHTML = "";
+
+          // Aggregate total hours per employee
+          const employeeMap = {};
+
+          data.forEach(row => {
+              const key = row.employeeid;
+              const hours = parseHours(row.totalHr); //changed (row.total_hr)
+              if (!employeeMap[key]) {
+                  employeeMap[key] = {
+                      name: row.name,
+                      employeeid: row.employeeid,
+                      totalHr: 0 //changed
+                  };
+              }
+              employeeMap[key].totalHr += hours;//changed totalHours
+          });
+
+          // Calculate salary and populate table
+          Object.values(employeeMap).forEach(emp => {
+              const gross = emp.totalHr * HOURLY_RATE; //changed
+              const pf = 0.12 * gross;
+              const pt = 200;
+              const tds = 0.05 * gross;
+              const net = gross - (pf + pt + tds);
+
+              const tr = document.createElement('tr');
+              tr.innerHTML = `
+                  <td>${emp.name}</td>
+                  <td>${emp.employeeid}</td>
+                  <td>${formatHours(emp.totalHr)}</td> //changed (emp.totalHours)}
+                  <td>${net.toFixed(2)}</td>
+              `;
+              tbody.appendChild(tr);
+          });
+
+          table.style.display = "table";
+      })
+      .catch(err => {
+         alert("Error fetching data, check backend console");
+         console.error(err);
+      });
+}
+</script>
+
+</body>
+</html>
