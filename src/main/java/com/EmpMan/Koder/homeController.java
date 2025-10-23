@@ -10,7 +10,7 @@ public class homeController {
 	public String home()
 	{
 		// TODO Auto-generated method stub
-        return "index";
+        return "index.html";
 	}
 	
 	@GetMapping("/time")

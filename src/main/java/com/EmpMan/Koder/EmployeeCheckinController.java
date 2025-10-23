@@ -12,14 +12,11 @@ public class EmployeeCheckinController {
     private EmployeeCheckinService service; //to reach out to Service layer created an object
 
     @PostMapping("/checkin")
-    public String handleCheckin(@ModelAttribute EmployeeCheckin checkin) {
+    public String handleCheckin(@ModelAttribute EmployeeCheckin checkin) { //model EmployeeCheckin is storing object value to pass in Service)
         service.saveCheckin(checkin);
         return "redirect:/"; // or return a success page
     }
     
-     public String Administrator()
-     {
-    	 
-    	 return "x";
-     }
+    
+
 }

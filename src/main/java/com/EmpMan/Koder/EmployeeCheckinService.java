@@ -2,6 +2,7 @@ package com.EmpMan.Koder;
 
 import java.time.Duration;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,12 +10,12 @@ import org.springframework.stereotype.Service;
 public class EmployeeCheckinService {
      @Autowired
 	private EmployeeCheckinRepository repository;
-	public void saveCheckin(EmployeeCheckin checkin) //checkin(obj) came from previous layer : Model
+	public void saveCheckin(EmployeeCheckin checkin) //checkin(obj) came from previous layer : controller
 	{
 		
 		
 		
-		//Hrs of work employee did
+		//Hrs of work employee did as per the feed
 		long i=Duration.between(checkin.getCheckinTime(),checkin.getCheckoutTime()).toHours();
 		if(i<0)
 		{checkin.setTotalHr(0);}
